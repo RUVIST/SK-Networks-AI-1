@@ -28,6 +28,9 @@ from random_forest.controller.random_forest_controller import randomForestRouter
 from recurrent_neural_network.controller.rnn_controller import recurrentNeuralNetworkRouter
 from sentence_structure_analysis.controller.sentence_structure_analysis_controller import \
     sentenceStructureAnalysisRouter
+from sequence_analysis.controller.sequence_analysis_controller import sequenceAnalysisRouter
+from simple_rule_base_chatbot.controller.srbcb_controller import simpleRuleBaseChatbotRouter
+from tf_idf_bow.controller.tf_idf_bow_controller import tfIdfBowRouter
 from tf_iris.controller.tf_iris_controller import tfIrisRouter
 from train_test_evaluation.controller.train_test_evaluation_controller import trainTestEvaluationRouter
 
@@ -221,6 +224,9 @@ app.include_router(principalComponentAnalysisRouter)
 app.include_router(convolutionNeuralNetworkRouter)
 app.include_router(recurrentNeuralNetworkRouter)
 app.include_router(sentenceStructureAnalysisRouter)
+app.include_router(simpleRuleBaseChatbotRouter)
+app.include_router(tfIdfBowRouter)
+app.include_router(sequenceAnalysisRouter)
 
 async def testTopicConsume(app: FastAPI):
     consumer = app.state.kafka_test_topic_consumer
