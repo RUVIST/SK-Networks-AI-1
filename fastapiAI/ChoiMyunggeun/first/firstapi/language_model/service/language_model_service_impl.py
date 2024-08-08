@@ -5,11 +5,11 @@ import requests
 from language_model.repository.language_model_repository_impl import LanguageModelRepositoryImpl
 from language_model.service.language_model_service import LanguageModelService
 
-
 class LanguageModelServiceImpl(LanguageModelService):
     DATA_FILE_PATH = "shakespeare.txt"
     SHAKESPEARE_TEXT_URL = ("https://raw.githubusercontent.com/"
                             "karpathy/char-rnn/master/data/tinyshakespeare/input.txt")
+
 
     def __init__(self):
         self.__languageModelRepository = LanguageModelRepositoryImpl()
@@ -39,3 +39,19 @@ class LanguageModelServiceImpl(LanguageModelService):
             self.__languageModelRepository.createDataSet(text, textAsIndex))
 
         self.__languageModelRepository.trainModel(sequenceList, characterList)
+
+    def predictWithModelingLanguage(self, userRequestForm):
+        loadedShakespeareModel = self.__languageModelRepository.requestToReadShakespeareModel()
+        userInputText = userRequestForm.getWannaGetPostText()
+
+        text = self.__readShakespeareText()
+        characterList, charToIndex, indexToChar = (
+            self.__languageModelRepository.preprocessForCreateUniqueCharacter(text))
+
+        inputTensor = self.__languageModelRepository.convertTextToTensor(userInputText, charToIndex)
+        generatedText = self.__languageModelRepository.generateText(
+            loadedShakespeareModel, inputTensor, indexToChar)
+
+        # loadedShakespeareModel.reset_states()
+
+
