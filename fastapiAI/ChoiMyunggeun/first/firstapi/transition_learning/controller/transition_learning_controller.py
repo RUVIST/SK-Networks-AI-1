@@ -1,6 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status, UploadFile, File
 from fastapi.responses import JSONResponse
 
+from transition_learning.controller.request_form.gpt2_pretrained_prediction_request_form import \
+    GPT2PretrainedPredictionRequestForm
 from transition_learning.controller.request_form.sentiment_analysis_request_form import SentimentAnalysisRequestForm
 from transition_learning.controller.request_form.transition_learning_predict_request_form import \
     TransitionLearningPredictRequestForm
@@ -35,3 +37,15 @@ async def transitionLearningWithsentimentAnalysis(sentimentAnalysisRequestForm: 
         sentimentAnalysisRequestForm)
 
     return JSONResponse(content=predictedResult, status_code=status.HTTP_200_OK)
+
+@transitionLearningRouter.post("/gpt2-pretrained-prediction")
+async def gpt2PretrainedPrediction(gpt2PretrainedPredictionRequestForm: GPT2PretrainedPredictionRequestForm,
+                                                  transitionLearningService: TransitionLearningServiceImpl =
+                                                  Depends(injectTransitionLearningService)):
+    print(f"controller -> transitionLearningWitnsentimentAnalysis():"
+          f"gpt2PretrainedPredictionRequestForm: {gpt2PretrainedPredictionRequestForm}")
+
+    predictedResult = transitionLearningService.predictiTextWithGPT2(gpt2PretrainedPredictionRequestForm)
+
+    return JSONResponse(content=predictedResult, status_code=status.HTTP_200_OK)
+
